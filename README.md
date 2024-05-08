@@ -15,11 +15,11 @@ This repository contains a demo project showcasing how to integrate Stripe Payme
   - Git (optional, for cloning this repository)
 ## Getting Started
   - Install dependencies using npm:
-  - npm install
+    + npm install
   - Set up your Stripe API keys:
-  - Create a .env file in the root directory of the project.
+    + Create a .env file in the root directory of the project.
   - Add your Stripe API keys to the .env file:
     + STRIPE_SK=your_stripe_secret_key
   - Run the application:
-  - npm start
+    + npm start
   - Open your web browser and navigate to http://localhost:3000 to view the demo.
