@@ -3,10 +3,10 @@
 This repository contains a demo project showcasing how to integrate Stripe Payments into a Node.js application using Express.js. This project serves as a starting point for developers who want to implement payment functionality using Stripe in their Node.js web applications.
 
 ## Features
-### Demonstrates how to set up a basic Node.js web server using Express.js.
-### Illustrates how to integrate Stripe Payments into the Node.js application.
-### Provides examples of handling different payment scenarios, such as one-time payments and recurring subscriptions.
-### Includes a simple frontend to initiate payments and display payment status.
+  - Demonstrates how to set up a basic Node.js web server using Express.js.\n
+  - Illustrates how to integrate Stripe Payments into the Node.js application.
+  - Provides examples of handling different payment scenarios, such as one-time payments and recurring subscriptions.
+  - Includes a simple frontend to initiate payments and display payment status.
 ## Prerequisites
 ### Before running this demo, ensure you have the following installed:
 
