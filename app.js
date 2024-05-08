@@ -95,7 +95,7 @@ const refund = async function (pi) {
 //createSub(plan)
 //getInfoSubByCus(id_sub)
 //infoInvoice(idInvoice)
-refund(pi)
+//refund(pi)
 app.listen(3000, function () {
     console.log('Server running!')
 })
