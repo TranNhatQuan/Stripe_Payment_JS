@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 
 const stripe = require('stripe')(process.env.STRIPE_SK)
+
 const express = require('express')
 const app = express()
 
@@ -64,6 +65,7 @@ const createSub = async function (plan) {
 
         items: plan
     })
+    return sub
 }
 const updateCus = async function () {
     const cus = await stripe.customers.update(
@@ -87,6 +89,7 @@ const refund = async function (pi) {
     })
     console.log(bool)
 }
+
 //createCustomer(param)
 //retrieveCustomer(id)
 //addPaymentToCustomer(payment)
@@ -96,6 +99,46 @@ const refund = async function (pi) {
 //getInfoSubByCus(id_sub)
 //infoInvoice(idInvoice)
 //refund(pi)
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
+app.post('/testSub', async (request, response) => {
+
+
+    const sub = await createSub(plan)
+    console.log(sub)
+
+    response.send();
+});
+const endpointSecret = "whsec_c4bdfe85543bfb3f3e6312ca0832b4e1aa6e053b53ea9f55daa637dc4a003fa0"
+app.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
+
+    const sig = request.headers['stripe-signature'];
+    let event;
+    try {
+        event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    } catch (err) {
+        response.status(400).send(`Webhook Error: ${err.message}`);
+        return;
+    }
+    // Handle the event
+    switch (event.type) {
+        case 'customer.subscription.created':
+            const subscriptionCreated = event.data.object;
+            console.log(subscriptionCreated)
+            break;
+        case 'customer.subscription.deleted':
+            const customerSubscriptionDeleted = event.data.object;
+            console.log(customerSubscriptionDeleted)
+            break;
+        default:
+
+    }
+
+
+    response.send();
+});
+
 app.listen(3000, function () {
     console.log('Server running!')
 })
