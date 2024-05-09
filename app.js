@@ -21,20 +21,34 @@ const retrieveCustomer = async function (id) {
     const customer = await stripe.customers.retrieve(id)
     console.log(customer)
 }
-const card =
-{
-    number: '4242424242424242',
-    exp_month: '5',
-    exp_year: '2024',
-    cvc: '314',
-}
+
 const payment = 'pm_card_visa'
 const addPaymentToCustomer = async function (payment) {
-    const customersPaymentMethod = await stripe.paymentMethods.attach(payment, { customer: id })
+    const customersPaymentMethod = await stripe.paymentMethods.attach(payment, { customer: "1" })
     console.log(customersPaymentMethod)
     const cus = await stripe.customers.update(
-        id, { invoice_settings: { default_payment_method: customersPaymentMethod.id } }
+        "1", { invoice_settings: { default_payment_method: customersPaymentMethod.id } }
     )
+}
+const getInfoPM = async function () {
+
+    const paymentMethod = await stripe.customers.retrievePaymentMethod(
+        'cus_Q4C04bJYgIAbyK',
+        'pm_1PE3dQLmIjNUtlPNNWey8RLi'
+    );
+    console.log(paymentMethod)
+}
+const updatePM = async function () {
+    const paymentMethod = await stripe.paymentMethods.update(
+        'pm_1PE3dQLmIjNUtlPNNWey8RLi',
+
+    );
+}
+const detachPm = async function () {
+
+    const paymentMethod = await stripe.paymentMethods.detach(
+        'pm_1PE3dQLmIjNUtlPNNWey8RLi'
+    );
 }
 const productDetail = {
     name: "Pro",
@@ -53,6 +67,23 @@ const productDetail = {
 const createProduct = async function (productDetail) {
 
     const product = await stripe.products.create(productDetail);
+    console.log(product)
+}
+const retrieveProduct = async function(){
+    const product = await stripe.products.retrieve('2');
+    console.log(product)
+    const price = await stripe.prices.retrieve(product.default_price);
+    console.log(price)
+}
+const updateProduct = async function(){
+    const product = await stripe.products.update(
+        '2',
+        {
+          metadata: {
+            order_id: '6735',
+          },
+        }
+      );
     console.log(product)
 }
 const plan = [
@@ -74,7 +105,7 @@ const updateCus = async function () {
         id, { invoice_settings: { default_payment_method: payment } }
     )
 }
-const id_sub = "sub_1PE40wLmIjNUtlPNa6IgyTU2"
+const id_sub = "sub_1PEO9PLmIjNUtlPND5SL1X38"
 const getInfoSubByCus = async function (id_sub) {
     const getInfoSubByCus = await stripe.subscriptions.retrieve(id_sub)
     console.log(getInfoSubByCus)
@@ -101,6 +132,9 @@ const refund = async function (pi) {
 //getInfoSubByCus(id_sub)
 //infoInvoice(idInvoice)
 //refund(pi)
+//getInfoPM()
+//detachPm()
+//retrieveProduct()
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
