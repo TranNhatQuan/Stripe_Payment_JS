@@ -10,6 +10,7 @@ const app = express()
 var param = {}
 param.email = 'test@gmail.com'
 param.name = 'testAcc'
+param.id = 1
 const createCustomer = async function (param) {
 
     const customer = await stripe.customers.create(param)
@@ -57,11 +58,12 @@ const createProduct = async function (productDetail) {
 const plan = [
     {
         price: "price_1PE1KNLmIjNUtlPNydwDYuyl"
-    }
+    },
+
 ]
 const createSub = async function (plan) {
     const sub = await stripe.subscriptions.create({
-        customer: id,
+        customer: 1,
 
         items: plan
     })
