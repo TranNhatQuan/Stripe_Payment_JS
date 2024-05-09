@@ -100,6 +100,13 @@ const createSub = async function (plan) {
     })
     return sub
 }
+const subId = ""
+const updateSub = async function () {
+    const sub = await stripe.subscriptions.update({
+        subId,
+    })
+    return sub
+}
 const updateCus = async function () {
     const cus = await stripe.customers.update(
         id, { invoice_settings: { default_payment_method: payment } }
@@ -128,7 +135,7 @@ const refund = async function (pi) {
 //addPaymentToCustomer(payment)
 
 //createProduct(productDetail)
-//createSub(plan)
+createSub(plan)
 //getInfoSubByCus(id_sub)
 //infoInvoice(idInvoice)
 //refund(pi)
