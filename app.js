@@ -69,21 +69,21 @@ const createProduct = async function (productDetail) {
     const product = await stripe.products.create(productDetail);
     console.log(product)
 }
-const retrieveProduct = async function(){
+const retrieveProduct = async function () {
     const product = await stripe.products.retrieve('2');
     console.log(product)
     const price = await stripe.prices.retrieve(product.default_price);
     console.log(price)
 }
-const updateProduct = async function(){
+const updateProduct = async function () {
     const product = await stripe.products.update(
         '2',
         {
-          metadata: {
-            order_id: '6735',
-          },
+            metadata: {
+                order_id: '6735',
+            },
         }
-      );
+    );
     console.log(product)
 }
 const plan = [
@@ -100,22 +100,32 @@ const createSub = async function (plan) {
     })
     return sub
 }
-const subId = ""
+const subId = "sub_1PEQgqLmIjNUtlPNVmt9ti1I"
 const updateSub = async function () {
-    const sub = await stripe.subscriptions.update({
-        subId,
-    })
-    return sub
+    const subscription = await stripe.subscriptions.update(
+        'sub_1PEQgqLmIjNUtlPNVmt9ti1I',
+        {
+            proration_behavior: "always_invoice",
+            items: [
+                {
+                    id: 'si_Q4Zq0GwYYssC1d',
+                    deleted: true
+
+                }
+            ]
+        }
+    );
+    return subscription
 }
 const updateCus = async function () {
     const cus = await stripe.customers.update(
         id, { invoice_settings: { default_payment_method: payment } }
     )
 }
-const id_sub = "sub_1PEO9PLmIjNUtlPND5SL1X38"
+
 const getInfoSubByCus = async function (id_sub) {
     const getInfoSubByCus = await stripe.subscriptions.retrieve(id_sub)
-    console.log(getInfoSubByCus)
+    console.log(getInfoSubByCus.items.data)
 }
 const idInvoice = "in_1PE40wLmIjNUtlPNRTWGqdba"
 const pi = "pi_3PE40wLmIjNUtlPN1ecVioBT"
@@ -135,8 +145,8 @@ const refund = async function (pi) {
 //addPaymentToCustomer(payment)
 
 //createProduct(productDetail)
-createSub(plan)
-//getInfoSubByCus(id_sub)
+//createSub(plan)
+getInfoSubByCus(subId)
 //infoInvoice(idInvoice)
 //refund(pi)
 //getInfoPM()
@@ -149,6 +159,14 @@ app.post('/testSub', async (request, response) => {
 
 
     const sub = await createSub(plan)
+    console.log(sub)
+
+    response.send();
+});
+app.post('/updateSub', async (request, response) => {
+
+
+    const sub = await updateSub()
     console.log(sub)
 
     response.send();
