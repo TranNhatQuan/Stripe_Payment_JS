@@ -1,5 +1,5 @@
 - Stripe không mất phí đăng ký, phí thường niên chỉ mất phí mỗi giao dịch(giao dịch hoàn tiền không mất phí)
-
+- Hiện đang dùng test mode do chưa có tài khoản xác thực.
 Customer:
 - Ta sẽ đăng ký tt customer lên stripe khi user tạo tài khoản(hoặc khi user thực hiện giao dịch đầu tiên), có thể tự đặt id customer trên stripe đc(phải unique)
 
@@ -16,7 +16,7 @@ Sub Plan
 - Tạo product để user sub. Mỗi product có thể có nhiều price: id, giá tiền, hình thức thanh toán, vvv
 - Mỗi plan có thể chưa 1 danh sách các price và quantity chot từng price
 - Không thể thay đổi giá tiền trong price, nếu muốn đổi giá trong sub_plan thì phải tạo price mới và thêm vào, remove price cũ đi. Khi update sub_plan mà thay đổi giá thì mặc định giá hoá đơn mới sẽ được tính vào tháng sau, có thể đổi thành ngay lập tức cũng đc.(Khi user đổi giá thì stripe sẽ tự tính giá tiền user cần phải trả ngay lập tức để đổi gói, ví dụ: user đăng ký gói 5$ được 15 ngày, 15 ngày còn lại user đổi sang gói 6$ thì user phải trả thêm 0.5$ ngay lập tức, từ tháng sau trả 6$)
-- Nếu khách hàng thanh toán thừa tiền thì nó sẽ lưu vào balance của người dùng trên stripe và thanh toán cho các invoice tiếp theo(trong trường hợp khách đăng ký gói tháng 100$ và dùng chỉ 1 ngày xong đổi sang gói 1$ thì số tiền còn lại của tháng sẽ ko refund cho khách mà lưu lại)
+- Nếu khách hàng thanh toán thừa tiền thì nó sẽ lưu vào balance của người dùng trên stripe và thanh toán cho các invoice tiếp theo(trong trường hợp khách đăng ký gói tháng 100$ và dùng chỉ 1 ngày xong huỷ gói thì số tiền còn lại của tháng sẽ ko refund cho khách mà lưu lại)
 - Khi user đăng ký 1 plan nào đó thì mặc định sử dụng payment method default(có thể chỉ định), server sẽ nhận lại mã sub và lưu trữ nó.
 - Có thể thiết lập thời điểm bắt đầu thanh toán của mỗi chu kỳ, ví dụ khi khách hàng đăng ký gói tháng vào giữa tháng(gói này được thiết lập để thu tiền môi đầu tháng) thì stripe sẽ tự động tính lại tiền tháng đó dựa vào số ngày còn lại vào lần thu đầu tiên, các tháng tiếp theo thu vào đầu tháng. Nếu không thiết lập ngày này thì stripe sẽ set ngày thu tiền là ngày đăng ký gói.(billing_cycle_anchor_config.day_of_month với monthly)
 - Sau khi đến ngày đóng tiền mà user không đóng được(mặc định là tự động trừ tiền), thì stripe sẽ thử lại x lần trong x ngày(do mình custom). Nếu không được thì sẽ cancel sub

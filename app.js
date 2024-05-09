@@ -146,7 +146,7 @@ const refund = async function (pi) {
 
 //createProduct(productDetail)
 //createSub(plan)
-getInfoSubByCus(subId)
+//getInfoSubByCus(subId)
 //infoInvoice(idInvoice)
 //refund(pi)
 //getInfoPM()
@@ -160,9 +160,13 @@ app.post('/testSub', async (request, response) => {
 
     const sub = await createSub(plan)
     console.log(sub)
-
+    console.log(request.ip)
     response.send();
 });
+app.get("/ip",(request, response)=>{
+    console.log(request.ip)
+    response.send(request.ip);
+})
 app.post('/updateSub', async (request, response) => {
 
 
@@ -179,7 +183,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
     try {
         event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
     } catch (err) {
-        response.status(400).send(`Webhook Error: ${err.message}`);
+        response.sendStatus(400);
         return;
     }
     // Handle the event
@@ -196,8 +200,8 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
 
     }
 
-
-    response.send();
+    
+    response.sendStatus(200);
 });
 
 app.listen(3000, function () {
