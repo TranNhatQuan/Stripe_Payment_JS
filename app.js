@@ -139,7 +139,20 @@ const refund = async function (pi) {
     })
     console.log(bool)
 }
-
+const checkOut = async function () {
+    const session = await stripe.checkout.sessions.create({
+        success_url: 'https://example.com/success',
+        mode: 'subscription',
+        line_items: [
+            {
+                price: "price_1PEOOILmIjNUtlPNtQsTxMIL",
+                quantity: 1
+            },
+        ],
+        currency: "USD"
+    });
+    return session
+}
 //createCustomer(param)
 //retrieveCustomer(id)
 //addPaymentToCustomer(payment)
@@ -155,6 +168,10 @@ const refund = async function (pi) {
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
+app.get('/check', async (req, res) => {
+    const url = await checkOut()
+    res.send(url)
+})
 app.post('/testSub', async (request, response) => {
 
 
@@ -163,7 +180,7 @@ app.post('/testSub', async (request, response) => {
     console.log(request.ip)
     response.send();
 });
-app.get("/ip",(request, response)=>{
+app.get("/ip", (request, response) => {
     console.log(request.ip)
     response.send(request.ip);
 })
@@ -200,7 +217,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
 
     }
 
-    
+
     response.sendStatus(200);
 });
 
