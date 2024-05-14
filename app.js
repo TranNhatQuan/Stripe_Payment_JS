@@ -16,9 +16,9 @@ const createCustomer = async function (param) {
     const customer = await stripe.customers.create(param)
     console.log(customer)
 }
-const id = 'cus_Q4C04bJYgIAbyK'
+const id = 'cus_Q67ciQa43WRhmn'
 const retrieveCustomer = async function (id) {
-    const customer = await stripe.customers.retrieve(id)
+    const customer = await stripe.customers.listPaymentMethods(id)
     console.log(customer)
 }
 
@@ -33,8 +33,8 @@ const addPaymentToCustomer = async function (payment) {
 const getInfoPM = async function () {
 
     const paymentMethod = await stripe.customers.retrievePaymentMethod(
-        'cus_Q4C04bJYgIAbyK',
-        'pm_1PE3dQLmIjNUtlPNNWey8RLi'
+        'cus_Q67ciQa43WRhmn',
+        'pm_1PGCEnLmIjNUtlPNOvqSsZjs'
     );
     console.log(paymentMethod)
 }
@@ -145,6 +145,9 @@ const checkOut = async function () {
         mode: 'setup',
         currency: "USD",
         customer: 'cus_Q67ciQa43WRhmn',
+        payment_method_types: [
+            "card"
+        ],
 
     });
     console.log(session)
