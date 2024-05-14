@@ -22,12 +22,12 @@ const retrieveCustomer = async function (id) {
     console.log(customer)
 }
 
-const payment = 'pm_card_visa'
+const payment = 'pm_1PGBrILmIjNUtlPNh3WAUolv'
 const addPaymentToCustomer = async function (payment) {
-    const customersPaymentMethod = await stripe.paymentMethods.attach(payment, { customer: "1" })
+    const customersPaymentMethod = await stripe.paymentMethods.attach(payment, { customer: "cus_Q67ciQa43WRhmn" })
     console.log(customersPaymentMethod)
     const cus = await stripe.customers.update(
-        "1", { invoice_settings: { default_payment_method: customersPaymentMethod.id } }
+        "cus_Q67ciQa43WRhmn", { invoice_settings: { default_payment_method: customersPaymentMethod.id } }
     )
 }
 const getInfoPM = async function () {
@@ -142,17 +142,22 @@ const refund = async function (pi) {
 const checkOut = async function () {
     const session = await stripe.checkout.sessions.create({
         success_url: 'https://example.com/success',
-        mode: 'subscription',
-        line_items: [
-            {
-                price: "price_1PEOOILmIjNUtlPNtQsTxMIL",
-                quantity: 1
-            },
-        ],
-        currency: "USD"
+        mode: 'setup',
+        currency: "USD",
+        customer: 'cus_Q67ciQa43WRhmn',
+
     });
-    return session
+    console.log(session)
 }
+const retrieveSession = async function () {
+    const session = await stripe.checkout.sessions.retrieve('cs_test_c1x3uhhvpLo1c74X4HwVrvsvSQyFAF8sdggZlOpTRFmOo7DnUF7OmPNoIC')
+    console.log(session)
+    const setup = await stripe.setupIntents.retrieve("seti_1PGC5YLmIjNUtlPNgEBLwGmH")
+    console.log(setup)
+}
+//retrieveSession()
+
+checkOut()
 //createCustomer(param)
 //retrieveCustomer(id)
 //addPaymentToCustomer(payment)
@@ -165,6 +170,7 @@ const checkOut = async function () {
 //getInfoPM()
 //detachPm()
 //retrieveProduct()
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
