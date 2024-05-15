@@ -17,8 +17,16 @@ const createCustomer = async function (param) {
     console.log(customer)
 }
 const id = 'cus_Q67ciQa43WRhmn'
+const data = {
+
+}
 const retrieveCustomer = async function (id) {
-    const customer = await stripe.customers.listPaymentMethods(id)
+    const customer = await stripe.customers.listPaymentMethods(id,
+        {
+            starting_after: data.startingAfter,
+            limit: data.limit,
+        }
+    )
     console.log(customer)
 }
 
@@ -142,12 +150,19 @@ const refund = async function (pi) {
 const checkOut = async function () {
     const session = await stripe.checkout.sessions.create({
         success_url: 'https://example.com/success',
-        mode: 'setup',
+        mode: 'subscription',
         currency: "USD",
         customer: 'cus_Q67ciQa43WRhmn',
-        payment_method_types: [
-            "card"
-        ],
+        line_items: [
+            {
+              price: 'price_1PGbBLLmIjNUtlPNypoeFoRW',
+              quantity: 1,
+            },
+            {
+                price: 'price_1PGbLsLmIjNUtlPNMJKGxuIc',
+                quantity:1,
+            }
+          ],
 
     });
     console.log(session)
