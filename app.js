@@ -164,11 +164,16 @@ const retrievebill = async function () {
   const bill = await stripe.invoices.retrieve("in_1PjbW2RwwUhSk2xPily5k6Wz", {
     expand: ["charge.balance_transaction"],
   });
-  console.log(bill);
+  let feeStripe = 0;
+  const charge = bill.charge;
+  const exchangeRate = charge.balance_transaction.exchange_rate ?? 1;
+  feeStripe = Math.round(charge.balance_transaction.fee / exchangeRate);
+  console.log(bill.charge.balance_transaction.fee_details);
+  console.log([exchangeRate, feeStripe]);
 };
 //retrieveSession()
-// retrievebill()
-checkOut();
+retrievebill();
+// checkOut();
 //createCustomer(param)
 //retrieveCustomer(id)
 //addPaymentToCustomer(payment)
