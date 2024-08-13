@@ -169,7 +169,7 @@ const retrievebill = async function () {
   const exchangeRate = charge.balance_transaction.exchange_rate ?? 1;
   feeStripe = Math.round(charge.balance_transaction.fee / exchangeRate);
   console.log(bill.charge.balance_transaction.fee_details);
-  console.log([exchangeRate, feeStripe]);
+  console.log([exchangeRate, feeStripe, bill.charge.balance_transaction]);
 };
 //retrieveSession()
 retrievebill();
